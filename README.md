@@ -17,18 +17,18 @@ this installs it globally for codex, claude code, cursor, and other compatible c
 tell your agent:
 
 ```text
-use $send-to-instinct to set up instinct with +1 555 123 4567
+use $send-to-instinct to set up instinct
 ```
 
-use the phone number or apple id shown in your instinct imessage conversation.
+the skill searches contacts for exact-name `instinct` candidates and shows you a masked phone number or email. you confirm the right one once, then it pins that exact imessage handle.
 
-installation works immediately, but sending needs this one-time setup. the first send may also make macos ask whether your coding agent can control messages.
+if it finds nothing, give it the phone number or apple id shown in your instinct imessage conversation. macos may ask whether your coding agent can access contacts or control messages.
 
 ## how it picks the right contact
 
-it doesn't guess from contact names.
+it doesn't trust the name alone. a real person could also be named instinct.
 
-setup saves the exact phone number or apple id locally. whenever the skill runs, the helper opens the imessage account already signed into messages and sends only to the participant with that stored handle. the agent never gets a recipient field it can change for an individual message.
+the name search only makes a shortlist. nothing is saved until you confirm a masked candidate. after that, the exact phone number or apple id is stored locally and every message goes only to that pinned handle.
 
 the saved handle lives here:
 

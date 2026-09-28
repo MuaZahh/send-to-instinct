@@ -9,13 +9,21 @@ Turn the useful conclusion of the current conversation into one ordinary natural
 
 ## Set up once
 
-When the user explicitly invokes this skill to set it up and supplies Instinct's phone number or Apple ID email, resolve `scripts/instinct_send.py` relative to this file and run:
+When the user explicitly invokes this skill and no recipient is configured, resolve `scripts/instinct_send.py` relative to this file and search Contacts:
+
+```text
+python3 <skill-directory>/scripts/instinct_send.py detect --json
+```
+
+Detection only returns phone numbers and email addresses from contacts whose exact name is `Instinct`. It does not configure a recipient or send a message.
+
+Show the user each candidate with its handle masked, and ask them to confirm the correct one. A contact name alone is never proof: if there is more than one candidate, let the user choose. After explicit confirmation, pin that candidate's exact handle:
 
 ```text
 python3 <skill-directory>/scripts/instinct_send.py configure --handle <phone-or-apple-id>
 ```
 
-This pins one recipient in a local user-only configuration shared by the user's coding agents. Configuring does not send a message.
+If no candidate is found, ask the user for the phone number or Apple ID shown in their Instinct iMessage conversation and configure that exact handle. This pins one recipient in a local user-only configuration shared by the user's coding agents. Configuring does not send a message.
 
 ## Prepare the handoff
 
@@ -35,10 +43,6 @@ Resolve `scripts/instinct_send.py` relative to this file. Pass the prepared mess
 python3 <skill-directory>/scripts/instinct_send.py send --stdin
 ```
 
-If the helper reports that Instinct is not configured, stop without sending and explain that its phone number or Apple ID must be pinned once with:
-
-```text
-python3 <skill-directory>/scripts/instinct_send.py configure --handle <phone-or-apple-id>
-```
+If the helper reports that Instinct is not configured, stop without sending and run the one-time detection and confirmation flow above. Never select a candidate merely because its contact name is `Instinct`.
 
 After success, report the exact message that was sent and say only that it was sent to Instinct. Do not claim that Instinct accepted, started, or completed the task.
