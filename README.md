@@ -24,18 +24,6 @@ the skill searches contacts for exact-name `instinct` candidates and shows you a
 
 if it finds nothing, give it the phone number or apple id shown in your instinct imessage conversation. macos may ask whether your coding agent can access contacts or control messages.
 
-## how it picks the right contact
-
-it doesn't trust the name alone. a real person could also be named instinct.
-
-the name search only makes a shortlist. nothing is saved until you confirm a masked candidate. after that, the exact phone number or apple id is stored locally and every message goes only to that pinned handle.
-
-the saved handle lives here:
-
-```text
-~/Library/Application Support/SendToInstinct/config.json
-```
-
 ## use it
 
 after comparing some products:
