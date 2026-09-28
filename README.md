@@ -2,55 +2,46 @@
   <img src="assets/banner.svg" width="920" alt="send to instinct">
 </p>
 
-<p align="center">
-  a tiny skill that hands the useful part of your coding-agent conversation over to instinct through imessage
-</p>
+a tiny skill for handing the useful part of a coding-agent conversation over to instinct through imessage.
 
-<p align="center">
-  <a href="https://skills.sh/MuaZahh/send-to-instinct"><img src="https://skills.sh/b/MuaZahh/send-to-instinct" alt="skills.sh installs"></a>
-  <img src="https://img.shields.io/badge/mac_only-for_now-111827?style=flat-square" alt="mac only">
-  <img src="https://img.shields.io/badge/dependencies-none-7c3aed?style=flat-square" alt="no dependencies">
-  <img src="https://img.shields.io/badge/license-mit-06b6d4?style=flat-square" alt="mit license">
-</p>
-
-## install it everywhere
+## install
 
 ```sh
 npx skills@latest add MuaZahh/send-to-instinct --all -g -y
 ```
 
-that installs the skill globally for the coding agents the skills cli knows about — codex, claude code, cursor, and a whole bunch more.
+this installs it globally for codex, claude code, cursor, and other compatible coding agents.
 
-then tell any of them:
+## set it up once
+
+tell your agent:
 
 ```text
 use $send-to-instinct to set up instinct with +1 555 123 4567
 ```
 
-you can use instinct's apple id email instead of a phone number too. setup just pins the recipient; it doesn't send anything.
+use the phone number or apple id shown in your instinct imessage conversation.
 
-## how it works
+installation works immediately, but sending needs this one-time setup. the first send may also make macos ask whether your coding agent can control messages.
+
+## how it picks the right contact
+
+it doesn't guess from contact names.
+
+setup saves the exact phone number or apple id locally. whenever the skill runs, the helper opens the imessage account already signed into messages and sends only to the participant with that stored handle. the agent never gets a recipient field it can change for an individual message.
+
+the saved handle lives here:
 
 ```text
-your conversation  →  one clean summary  →  messages.app  →  instinct
+~/Library/Application Support/SendToInstinct/config.json
 ```
 
-the agent takes the final decisions from the conversation, drops the rejected ideas and random back-and-forth, and sends one normal imessage to instinct.
+## use it
 
-there's intentionally not much more to it:
-
-- it only sends to the one recipient you configured
-- it doesn't read your messages
-- it doesn't track instinct's task status
-- it doesn't pretend instinct finished something just because the message was sent
-- it doesn't resend automatically if the result is unclear
-
-## a few examples
-
-after comparing a bunch of products:
+after comparing some products:
 
 ```text
-$send-to-instinct buy the final keyboard parts we picked. no substitutions and keep it under $120.
+$send-to-instinct buy the final ones we picked. no substitutions and keep it under $120.
 ```
 
 after planning a build:
@@ -65,39 +56,18 @@ after researching suppliers:
 $send-to-instinct have instinct contact the three suppliers we shortlisted and ask for delivered prices.
 ```
 
-or just:
+or simply:
 
 ```text
 $send-to-instinct hand this over to instinct.
 ```
 
-the agent uses the current conversation to figure out what "this" means and includes the useful links, limits, quantities, and other details.
+the agent turns the final decision, useful links, quantities, and limits into one normal message. it reports whether that message was sent; it doesn't claim to know what instinct does afterward.
 
-## what gets stored
+## requirements
 
-just the pinned phone number or apple id, locally at:
+macos, python 3, and messages signed into imessage.
 
-```text
-~/Library/Application Support/SendToInstinct/config.json
-```
+## license
 
-the file is readable only by your mac user. messages themselves aren't copied into another database or log.
-
-## what you need
-
-- a mac with messages signed in
-- python 3
-- instinct's imessage phone number or apple id
-- permission for your coding agent to automate messages when macos asks
-
-## testing
-
-```sh
-python3 -m unittest discover -s tests -v
-```
-
-the tests use a fake messages runner. they won't text anyone.
-
-## tiny disclaimer
-
-this sends instructions; it doesn't verify what instinct does afterward. keep the wording clear when money, bookings, or messages to other people are involved.
+mit
