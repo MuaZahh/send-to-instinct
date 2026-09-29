@@ -24,13 +24,21 @@ on run argv
     if (count of argv) is not 2 then error "Expected a participant handle and message"
     set participantHandle to item 1 of argv
     set messageText to item 2 of argv
+    set messagesWasRunning to application "Messages" is running
 
-    tell application "Messages"
-        set targetAccount to first account whose service type is iMessage
-        set targetParticipant to participant participantHandle of targetAccount
-        if (handle of targetParticipant) is not participantHandle then error "Configured participant mismatch"
-        send messageText to targetParticipant
-    end tell
+    try
+        tell application "Messages"
+            set targetAccount to first account whose service type is iMessage
+            set targetParticipant to participant participantHandle of targetAccount
+            if (handle of targetParticipant) is not participantHandle then error "Configured participant mismatch"
+            send messageText to targetParticipant
+        end tell
+    on error errorMessage number errorNumber
+        if not messagesWasRunning then quit application "Messages"
+        error errorMessage number errorNumber
+    end try
+
+    if not messagesWasRunning then quit application "Messages"
 
     return "SENT"
 end run

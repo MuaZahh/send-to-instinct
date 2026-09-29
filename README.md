@@ -22,7 +22,7 @@ use $send-to-instinct to set up instinct
 
 the skill searches contacts for exact-name `instinct` candidates and shows you a masked phone number or email. you confirm the right one once, then it pins that exact imessage handle.
 
-if it finds nothing, give it the phone number or apple id shown in your instinct imessage conversation. macos may ask whether your coding agent can access contacts or control messages.
+if it finds nothing, give it the phone number or apple id shown in your instinct imessage conversation. macos may ask whether your coding agent can access contacts or control messages. if messages was closed before sending, the helper closes it again afterward.
 
 ## use it
 
