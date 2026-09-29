@@ -45,29 +45,38 @@ end run
 '''.strip()
 
 DETECT_APPLESCRIPT = r'''
-tell application "Contacts"
-    set outputRows to {}
-    set matchingPeople to every person whose name is "Instinct"
+set contactsWasRunning to application "Contacts" is running
 
-    repeat with matchingPerson in matchingPeople
-        set contactID to id of matchingPerson
-        set contactName to name of matchingPerson
+try
+    tell application "Contacts"
+        set outputRows to {}
+        set matchingPeople to every person whose name is "Instinct"
 
-        repeat with phoneEntry in phones of matchingPerson
-            set end of outputRows to contactID & tab & contactName & tab & "phone" & tab & (value of phoneEntry)
+        repeat with matchingPerson in matchingPeople
+            set contactID to id of matchingPerson
+            set contactName to name of matchingPerson
+
+            repeat with phoneEntry in phones of matchingPerson
+                set end of outputRows to contactID & tab & contactName & tab & "phone" & tab & (value of phoneEntry)
+            end repeat
+
+            repeat with emailEntry in emails of matchingPerson
+                set end of outputRows to contactID & tab & contactName & tab & "email" & tab & (value of emailEntry)
+            end repeat
         end repeat
 
-        repeat with emailEntry in emails of matchingPerson
-            set end of outputRows to contactID & tab & contactName & tab & "email" & tab & (value of emailEntry)
-        end repeat
-    end repeat
+        set previousDelimiters to AppleScript's text item delimiters
+        set AppleScript's text item delimiters to linefeed
+        set renderedOutput to outputRows as text
+        set AppleScript's text item delimiters to previousDelimiters
+    end tell
+on error errorMessage number errorNumber
+    if not contactsWasRunning then quit application "Contacts"
+    error errorMessage number errorNumber
+end try
 
-    set previousDelimiters to AppleScript's text item delimiters
-    set AppleScript's text item delimiters to linefeed
-    set renderedOutput to outputRows as text
-    set AppleScript's text item delimiters to previousDelimiters
-    return renderedOutput
-end tell
+if not contactsWasRunning then quit application "Contacts"
+return renderedOutput
 '''.strip()
 
 
@@ -95,11 +104,15 @@ def validate_handle(value: str) -> str:
     handle = value.strip()
     email = re.fullmatch(r"[^@\s]{2,}@[^@\s]{2,}\.[^@\s]{2,}", handle)
     phone = re.fullmatch(r"\+?[0-9][0-9 ()-]{5,}[0-9]", handle)
-    if not (email or phone):
+    if email:
+        return handle
+    if not phone:
         raise ConfigurationError(
             "Instinct handle must be a complete phone number or Apple ID email address"
         )
-    return handle
+    prefix = "+" if handle.startswith("+") else ""
+    digits = "".join(character for character in handle if character.isdigit())
+    return prefix + digits
 
 
 def validate_message(value: str) -> str:
@@ -110,6 +123,28 @@ def validate_message(value: str) -> str:
             f"Message exceeds the {MAX_MESSAGE_CHARACTERS}-character safety limit"
         )
     return value
+
+
+def friendly_automation_error(detail: str, target: str) -> str:
+    normalized = detail.casefold()
+    permission_markers = (
+        "-1743",
+        "not authorized to send apple events",
+        "not authorised to send apple events",
+        "not permitted to send apple events",
+        "a privilege violation",
+    )
+    if not any(marker in normalized for marker in permission_markers):
+        return detail
+    if target == "Contacts":
+        return (
+            "macOS blocked Contacts access. In System Settings > Privacy & Security, "
+            "allow your coding agent or terminal under Contacts and Automation, then try again."
+        )
+    return (
+        f"macOS blocked {target} automation. Open System Settings > Privacy & Security > "
+        f"Automation, allow your coding agent or terminal to control {target}, then try again."
+    )
 
 
 def parse_detected_contacts(output: str) -> list[dict[str, str]]:
@@ -163,7 +198,7 @@ def detect_instinct_candidates(
 
     if completed.returncode != 0:
         detail = completed.stderr.strip() or "Contacts search failed"
-        raise DetectionError(detail)
+        raise DetectionError(friendly_automation_error(detail, "Contacts"))
     return parse_detected_contacts(completed.stdout)
 
 
@@ -258,7 +293,7 @@ def send_message(
 
     if completed.returncode != 0:
         detail = completed.stderr.strip() or "Messages automation failed"
-        raise SendError(detail)
+        raise SendError(friendly_automation_error(detail, "Messages"))
     if completed.stdout.strip() != "SENT":
         raise SendError(
             "Messages returned an unexpected response. The result is unknown; "
