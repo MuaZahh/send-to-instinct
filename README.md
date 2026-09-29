@@ -17,7 +17,7 @@ this installs it globally for codex, claude code, cursor, and other compatible c
 tell your agent:
 
 ```text
-use $text-instinct to set up instinct
+use /text-instinct to set up instinct
 ```
 
 the skill searches contacts for exact-name `instinct` candidates and shows you a masked phone number or email. you confirm the right one once, then it pins that exact imessage handle.
@@ -29,28 +29,26 @@ if it finds nothing, give it the phone number or apple id shown in your instinct
 after comparing some products:
 
 ```text
-$text-instinct buy the final ones we picked. no substitutions and keep it under $120.
+/text-instinct buy the final ones we picked. no substitutions and keep it under $120.
 ```
 
 after planning a build:
 
 ```text
-$text-instinct send instinct the final parts list and ask it to add everything to my cart.
+/text-instinct send instinct the final parts list and ask it to add everything to my cart.
 ```
 
 after researching suppliers:
 
 ```text
-$text-instinct have instinct contact the three suppliers we shortlisted and ask for delivered prices.
+/text-instinct have instinct contact the three suppliers we shortlisted and ask for delivered prices.
 ```
 
 or simply:
 
 ```text
-$text-instinct hand this over to instinct.
+/text-instinct hand this over to instinct.
 ```
-
-the agent turns the final decision, useful links, quantities, and limits into one normal message. it reports whether that message was sent; it doesn't claim to know what instinct does afterward.
 
 ## requirements
 

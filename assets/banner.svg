@@ -1,6 +1,6 @@
 <svg width="1200" height="320" viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title description">
   <title id="title">text instinct</title>
   <desc id="description">a blue imessage bubble that reads /text Instinct</desc>
-  <path transform="translate(231.485 56.4) scale(5.333)" fill="#0A84FF" d="M19.425 0L118.768 0A19.425 19.425 0 0 1 138.193 19.425L138.193 28.85Q138.693 38.35 145.193 38.85L19.425 38.85A19.425 19.425 0 0 1 0 19.425A19.425 19.425 0 0 1 19.425 0Z"/>
+  <path transform="translate(231.485 56.4) scale(5.333)" fill="#0A84FF" d="M115.958 38.85L19.425 38.85C8.697 38.85 0 30.153 0 19.425L0 19.425C0 8.697 8.697 0 19.425 0L118.768 0C129.496 0 138.193 8.697 138.193 19.425L138.193 25.262C138.193 37.615 143.134 38.85 143.134 38.85C138.107 39.381 133.054 37.541 129.497 33.859C123.369 38.85 119.664 38.85 115.958 38.85Z"/>
   <text x="303.165" y="198.64" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="112" font-weight="500" textLength="593.669" lengthAdjust="spacing">/text Instinct</text>
 </svg>
