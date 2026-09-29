@@ -1,9 +1,9 @@
 ---
-name: send-to-instinct
+name: text-instinct
 description: Send the final decisions and necessary context from the current conversation to the user's pinned Instinct iMessage contact. Use only when the user explicitly invokes this skill to hand work off to Instinct.
 ---
 
-# Send to Instinct
+# Text Instinct
 
 Turn the useful conclusion of the current conversation into one ordinary natural-language message and send it to the configured Instinct recipient.
 

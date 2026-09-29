@@ -1,6 +1,6 @@
 interface:
-  display_name: "Send to Instinct"
+  display_name: "Text Instinct"
   short_description: "Send conversation conclusions to Instinct"
-  default_prompt: "Use $send-to-instinct to send the final decisions from this conversation to Instinct."
+  default_prompt: "Use $text-instinct to send the final decisions from this conversation to Instinct."
 policy:
   allow_implicit_invocation: false
